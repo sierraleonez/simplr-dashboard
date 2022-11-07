@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 import { useAuth } from '../src/components/Auth/provider'
 import React from 'react'
+import { StaticPageProps } from 'Constants/Pages'
 const Home: NextPage = () => {
   const authContext = useAuth()
   return (
@@ -11,10 +12,10 @@ const Home: NextPage = () => {
   )
 }
 
-export async function getStaticProps(context: any){
+export async function getStaticProps(): Promise<StaticPageProps>{
   return {
     props: {
-      protected: false
+      flow: 'public'
     }
   }
 }
