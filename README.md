@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## To Do
+- [ ] Create Axios instance to connect to Auth service
+- [ ] Create service gateway for microservice
+- [ ] Integrate Login auth
+- [ ] Construct Register UI
+- [ ] Create custom router for defining destination and payload
+- [ ] Integrate [quicktype](https://blog.postman.com/turn-your-postman-collection-into-models-with-quicktype-io/)
+- [ ] Create global package for microservice
+
+## When to use Interface vs Type
+https://medium.com/@martin_hotell/interface-vs-type-alias-in-typescript-2-7-2a8f1777af4c
+
 ## Getting Started
 
 First, run the development server:

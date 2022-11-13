@@ -1,14 +1,19 @@
-import { StaticPageProps } from "../../src/Constants/Pages";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { StaticPageProps } from "Constants/Pages";
 import styles from "styles/login.module.css";
 import "Constants/Auth/Auth";
-interface IFormInput {
-  username: string;
+import { useRouter } from "next/router";
+import { CLogin } from "Microservice/Auth/auth";
+type IFormInput = {
+  email: string;
   password: string;
 }
+
 const Login = () => {
+  const router = useRouter()
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  console.log('test')
+  const onSubmit: SubmitHandler<IFormInput> = (data) => CLogin(data);
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
@@ -16,7 +21,7 @@ const Login = () => {
           <label htmlFor="username">Username</label>
           <input
             className={styles.input}
-            {...register("username", {
+            {...register("email", {
               required: { value: true, message: "This input is required" },
             })}
           />
@@ -28,6 +33,7 @@ const Login = () => {
               required: { value: true, message: "This input is required" },
             })}
           />
+          <a onClick={() => router.push('register')} className={styles.signUpContainer}>Sign Up</a>
           <input type={"submit"} className={styles.submitButton}/>
         </form>
       </div>

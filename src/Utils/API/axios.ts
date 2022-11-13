@@ -1,22 +1,25 @@
 import axios, { AxiosInstance } from "axios";
 
-type APIContext = 'simplr-micro'
+type APIContext = 'simplr-auth'
 
 
 type CustomAxiosInstance = (context: APIContext) => AxiosInstance
 
-const instance: CustomAxiosInstance = (context) => {
+const netInstance: CustomAxiosInstance = (context) => {
   let baseURL = getBaseUrl(context)
   return axios.create({
     baseURL,
     timeout: 1000,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
   })
 }
 
 function getBaseUrl(context: APIContext) {
   let baseUrl
   switch (context) {
-    case "simplr-micro":
+    case "simplr-auth":
       baseUrl = "http://localhost:8000"
       break;
     default:
@@ -26,6 +29,7 @@ function getBaseUrl(context: APIContext) {
   return baseUrl
 }
 
+export { netInstance  }
 // Usage example:
 // instance('simplr-micro' ).get('/')
 

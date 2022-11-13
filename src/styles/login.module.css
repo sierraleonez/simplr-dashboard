@@ -39,10 +39,16 @@
   box-shadow: 0 9px #999
 }
 
-
-
 .submitButton:active {
   background-color: azure;
   transform: translateY(4px);
   box-shadow: 0 5px #666;
+}
+
+.signUpContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
 }
