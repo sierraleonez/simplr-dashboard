@@ -4,7 +4,7 @@ import { PageProps, StaticPageProps } from "../../Constants/Pages";
 
 interface AuthContextInterface {
   authState: { token: string };
-  setAuthState: (userAuthInfo: { data: { data: string } }) => void;
+  setAuthState: (token: string) => void;
   isUserAuthenticated: () => boolean;
 }
 
@@ -24,34 +24,33 @@ const AuthProvider = ({
   const router = useRouter();
   const isUserAuthenticated = () => !!authState.token;
 
-  
-  const setUserAuthInfo = ({ data }: { data: { data: string } }) => {
-    const token = localStorage.setItem("token", data.data);
-    setAuthState({ token: data.data });
+  const setUserAuthInfo = (resToken: string) => {
+    console.log('token:', resToken)
+    localStorage.setItem("token", resToken);
+    setAuthState({ token: resToken });
   };
-  
+
   useEffect(() => {
     switch (pageProps?.flow) {
-      case 'auth':
-        isUserAuthenticated() && router.push('/')
+      case "auth":
+        isUserAuthenticated() && router.push("/");
         break;
-      case 'main':
-        !isUserAuthenticated() && router.push('/')
-        break
+      case "main":
+        !isUserAuthenticated() && router.push("/");
+        break;
       default:
         break;
     }
     // if (pageProps?.flow === 'auth') {
     //   isUserAuthenticated() && router.push('/')
-    // }  
+    // }
   }, []);
 
   return (
     <Provider
       value={{
         authState,
-        setAuthState: (userAuthInfo: { data: { data: string } }) =>
-          setUserAuthInfo(userAuthInfo),
+        setAuthState: (token: string) => setUserAuthInfo(token),
         isUserAuthenticated,
       }}
     >

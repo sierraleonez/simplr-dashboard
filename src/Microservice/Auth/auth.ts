@@ -1,31 +1,34 @@
-import { netInstance } from "Utils/API/axios"
+import { netInstance } from "Utils/API/axios";
 
 type Response<T> = {
-  data: T | null, 
-  error: any
-}
+  data: T | null;
+  error: any;
+};
 
-type APICall<T> = (reqBody: T) => Response<T>
+type LoginResponse = {
+  token: string;
+};
+
+type APICall = (reqBody: LoginRequest) => Promise<Response<LoginResponse>>;
+
 type LoginRequest = {
   email: string;
   password: string;
-}
-const CLogin: APICall<LoginRequest> = (reqBody) => {
-  let res: Response<LoginRequest> = {
-    data: null,
-    error: undefined
-  }
-  netInstance('simplr-auth').post('/login', reqBody)
-    .then(data => { 
-      console.log('res: ', data)
-      res = { data: data.data, error: null } 
-    })
-    .catch(err => {
-      console.log('err:', err)
-      res = { data: null, error: err }
-    })
-  return res
-  
-}
+};
 
-export { CLogin }
+const CLogin: APICall = (reqBody) => {
+  return new Promise(function (resolve, reject) {
+    netInstance("simplr-auth")
+      .post("/login", reqBody)
+      .then(({ data }) => {
+        console.log("res: ", data);
+        resolve({ data: data.Data, error: null })
+      })
+      .catch((err) => {
+        console.log("err:", err);
+        reject({ data: null, error: err })
+      });
+  });
+};
+
+export { CLogin };

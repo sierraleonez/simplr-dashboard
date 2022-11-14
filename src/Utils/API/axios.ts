@@ -9,7 +9,7 @@ const netInstance: CustomAxiosInstance = (context) => {
   let baseURL = getBaseUrl(context)
   return axios.create({
     baseURL,
-    timeout: 1000,
+    timeout: 5000,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }

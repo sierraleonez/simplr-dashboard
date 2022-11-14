@@ -4,6 +4,7 @@ import styles from "styles/login.module.css";
 import "Constants/Auth/Auth";
 import { useRouter } from "next/router";
 import { CLogin } from "Microservice/Auth/auth";
+import { useAuth } from "components/Auth/provider";
 type IFormInput = {
   email: string;
   password: string;
@@ -11,9 +12,17 @@ type IFormInput = {
 
 const Login = () => {
   const router = useRouter()
+  const authCtx = useAuth()
   const { register, handleSubmit } = useForm<IFormInput>();
-  console.log('test')
-  const onSubmit: SubmitHandler<IFormInput> = (data) => CLogin(data);
+  async function saveToken(data: IFormInput) {
+    let res = await CLogin(data)
+    console.log(res.data)
+    let token = res.data || ''
+    if (!res.error) {
+      authCtx?.setAuthState(token)
+    }
+  }
+  const onSubmit: SubmitHandler<IFormInput> = (data) => saveToken(data);
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
