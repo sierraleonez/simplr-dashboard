@@ -22,7 +22,15 @@ const AuthProvider = ({
     token: "",
   });
   const router = useRouter();
-  const isUserAuthenticated = () => !!authState.token;
+  const isUserAuthenticated = () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      setAuthState({ token })
+      return true
+    } else {
+      return false
+    }
+  }
 
   const setUserAuthInfo = (resToken: string) => {
     console.log('token:', resToken)
@@ -41,10 +49,7 @@ const AuthProvider = ({
       default:
         break;
     }
-    // if (pageProps?.flow === 'auth') {
-    //   isUserAuthenticated() && router.push('/')
-    // }
-  }, []);
+  }, [authState.token]);
 
   return (
     <Provider

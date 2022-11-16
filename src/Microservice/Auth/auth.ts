@@ -1,4 +1,5 @@
-import { netInstance } from "Utils/API/axios";
+import { useState } from "react";
+import { APICall, netInstance } from "Utils/API/axios";
 
 type Response<T> = {
   data: T | null;
@@ -8,27 +9,29 @@ type Response<T> = {
 type LoginResponse = {
   token: string;
 };
+type test<T1, T2> = string;
 
-type APICall = (reqBody: LoginRequest) => Promise<Response<LoginResponse>>;
+type APICall<T1, T2> = (reqBody: T1) => Promise<Response<T2>>;
 
 type LoginRequest = {
   email: string;
   password: string;
 };
 
-const CLogin: APICall = (reqBody) => {
-  return new Promise(function (resolve, reject) {
-    netInstance("simplr-auth")
-      .post("/login", reqBody)
-      .then(({ data }) => {
-        console.log("res: ", data);
-        resolve({ data: data.Data, error: null })
-      })
-      .catch((err) => {
-        console.log("err:", err);
-        reject({ data: null, error: err })
-      });
-  });
-};
+async function CLogin(req: LoginRequest) {
+  try {
+    const res = await APICall<LoginRequest, string>(
+      {
+        context: "simplr-auth",
+        method: "post",
+        path: "/login",
+        param: req
+      },
+    );
+    return res
+  } catch (err: any) {
+    return err
+  }
+}
 
 export { CLogin };

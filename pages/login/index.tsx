@@ -16,7 +16,6 @@ const Login = () => {
   const { register, handleSubmit } = useForm<IFormInput>();
   async function saveToken(data: IFormInput) {
     let res = await CLogin(data)
-    console.log(res.data)
     let token = res.data || ''
     if (!res.error) {
       authCtx?.setAuthState(token)
