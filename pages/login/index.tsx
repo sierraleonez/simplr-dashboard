@@ -1,24 +1,26 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { StaticPageProps } from "Constants/Pages";
-import styles from "styles/login.module.css";
-import "Constants/Auth/Auth";
 import { useRouter } from "next/router";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import { CLogin } from "Microservice/Auth/auth";
+import { StaticPageProps } from "Constants/Pages";
 import { useAuth } from "components/Auth/provider";
+
+import styles from "styles/login.module.css";
+
 type IFormInput = {
   email: string;
   password: string;
-}
+};
 
 const Login = () => {
-  const router = useRouter()
-  const authCtx = useAuth()
+  const router = useRouter();
+  const authCtx = useAuth();
   const { register, handleSubmit } = useForm<IFormInput>();
   async function saveToken(data: IFormInput) {
-    let res = await CLogin(data)
-    let token = res.data || ''
-    if (!res.error) {
-      authCtx?.setAuthState(token)
+    let res = await CLogin(data);
+    let token = res?.data?.Token || "";
+    if (!res?.error) {
+      authCtx?.setAuthState(token);
     }
   }
   const onSubmit: SubmitHandler<IFormInput> = (data) => saveToken(data);
@@ -36,13 +38,18 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input
             className={styles.input}
-            type={'password'}
+            type={"password"}
             {...register("password", {
               required: { value: true, message: "This input is required" },
             })}
           />
-          <a onClick={() => router.push('register')} className={styles.signUpContainer}>Sign Up</a>
-          <input type={"submit"} className={styles.submitButton}/>
+          <a
+            onClick={() => router.push("register")}
+            className={styles.signUpContainer}
+          >
+            Sign Up
+          </a>
+          <input type={"submit"} className={styles.submitButton} />
         </form>
       </div>
     </div>
