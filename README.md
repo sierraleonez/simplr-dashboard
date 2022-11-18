@@ -2,12 +2,14 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## To Do
 - [ ] Create Axios instance to connect to Auth service
-- [ ] Create service gateway for microservice
+- [ ] Create service gateway for microservice (BE)
 - [ ] Integrate Login auth
 - [ ] Construct Register UI
 - [ ] Create custom router for defining destination and payload
+- [ ] Custom router to automatically redirect between public, main, and auth
+- [ ] Create global modal to display error
 - [ ] Integrate [quicktype](https://blog.postman.com/turn-your-postman-collection-into-models-with-quicktype-io/)
-- [ ] Create global package for microservice
+- [ ] Create global package for microservice (BE)
 
 ## When to use Interface vs Type
 https://medium.com/@martin_hotell/interface-vs-type-alias-in-typescript-2-7-2a8f1777af4c

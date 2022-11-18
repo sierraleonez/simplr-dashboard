@@ -10,17 +10,13 @@ type LoginRequest = {
 };
 
 async function CLogin(req: LoginRequest) {
-  try {
-    const res = await APICall<LoginRequest, LoginResponse>({
-      context: "simplr-auth",
-      method: "post",
-      path: "/login",
-      param: req,
-    });
-    return res;
-  } catch (err) {
-    return { data: null, error: err };
-  }
+  const res = await APICall<LoginRequest, LoginResponse>({
+    context: "simplr-auth",
+    method: "post",
+    path: "/login",
+    param: req,
+  });
+  return res;
 }
 
 export { CLogin };

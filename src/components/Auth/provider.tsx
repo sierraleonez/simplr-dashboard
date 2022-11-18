@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import { PageProps, StaticPageProps } from "../../Constants/Pages";
+import { PageProps } from "../../Constants/Pages";
 
 interface AuthContextInterface {
   authState: { token: string };
@@ -23,17 +23,17 @@ const AuthProvider = ({
   });
   const router = useRouter();
   const isUserAuthenticated = () => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (token) {
-      setAuthState({ token })
-      return true
+      setAuthState({ token });
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   const setUserAuthInfo = (resToken: string) => {
-    console.log('token:', resToken)
+    console.log("token:", resToken);
     localStorage.setItem("token", resToken);
     setAuthState({ token: resToken });
   };
@@ -41,15 +41,15 @@ const AuthProvider = ({
   useEffect(() => {
     switch (pageProps?.flow) {
       case "auth":
-        isUserAuthenticated() && router.push("/");
+        isUserAuthenticated() && router.push("/dashboard");
         break;
       case "main":
-        !isUserAuthenticated() && router.push("/");
+        !isUserAuthenticated() && router.push("/login");
         break;
       default:
         break;
     }
-  }, [authState.token]);
+  }, [authState.token, pageProps.flow]);
 
   return (
     <Provider
@@ -63,5 +63,6 @@ const AuthProvider = ({
     </Provider>
   );
 };
+
 const useAuth = () => useContext(AuthContext);
 export { AuthContext, AuthProvider, useAuth };

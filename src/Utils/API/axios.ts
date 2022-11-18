@@ -1,9 +1,13 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 type APIContext = "simplr-auth";
 
 type CustomAxiosInstance = (context: APIContext) => AxiosInstance;
-
+/**
+ * Custom axios instance with basic configuration setup (header, baseUrl, authorization)
+ * @param context Microservice destination of API call
+ * @returns AxiosInstance
+ */
 const netInstance: CustomAxiosInstance = (context) => {
   let baseURL = getBaseUrl(context);
   return axios.create({
@@ -42,6 +46,11 @@ type Response<T> = {
   error: any;
 };
 
+/**
+ * Call endpoints with provided request body and return mapped result
+ * @param req Request parameter
+ * @returns Promise
+ */
 function APICall<TRequest, TResponse>(
   req: Request<TRequest>
 ): Promise<Response<TResponse>> {
