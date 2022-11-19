@@ -1,14 +1,22 @@
 import { CSSProperties, MouseEvent } from "react";
-import styles from "./button.module.css";
 type ButtonType = "link" | "regular";
-
+type style = {
+  [key in ButtonType]: CSSProperties;
+};
+const styles: style = {
+  link: {},
+  regular: {
+    padding: "0.3rem",
+  },
+};
 interface ButtonProps {
   type: ButtonType;
   onPress: (event: MouseEvent<HTMLDivElement>) => void;
   color?: string;
   bgColor?: string;
   style?: CSSProperties;
-  children: React.ReactElement;
+  children: React.ReactNode;
+  className?: string;
 }
 
 type ButtonDefault = {
@@ -25,11 +33,6 @@ const ButtonDefaultBgColor: ButtonDefault = {
   regular: "#000",
 };
 
-const ButtonClass: ButtonDefault = {
-  link: styles.link,
-  regular: styles.regular,
-};
-
 function Button({
   type = "regular",
   onPress,
@@ -37,11 +40,12 @@ function Button({
   color = ButtonDefaultColor[type],
   style = {},
   children,
+  className = "",
 }: ButtonProps) {
   return (
     <div
-      style={{ ...style, color, backgroundColor: bgColor }}
-      className={`${ButtonClass[type]} ${styles.default}`}
+      style={{ ...style, color, backgroundColor: bgColor, ...styles[type] }}
+      className={`${className}`}
       onClick={onPress}
     >
       {children}

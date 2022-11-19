@@ -5,7 +5,9 @@ import { CLogin } from "Microservice/Auth/auth";
 import { StaticPageProps } from "Constants/Pages";
 import { useAuth } from "components/Auth/provider";
 
+import Button from "components/Button";
 import styles from "styles/login.module.css";
+import TextInput from "components/TextInput";
 
 type IFormInput = {
   email: string;
@@ -15,7 +17,11 @@ type IFormInput = {
 const Login = () => {
   const router = useRouter();
   const authCtx = useAuth();
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>();
   async function saveToken(data: IFormInput) {
     let res = await CLogin(data);
     let token = res?.data?.Token || "";
@@ -29,11 +35,15 @@ const Login = () => {
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <label htmlFor="username">Username</label>
-          <input
-            className={styles.input}
-            {...register("email", {
+          <TextInput
+            name="a"
+            validation={register("email", {
               required: { value: true, message: "This input is required" },
             })}
+            className={styles.input}
+            placeholder={
+              errors.email ? errors.email.message : "Please input username"
+            }
           />
           <label htmlFor="password">Password</label>
           <input
@@ -41,14 +51,21 @@ const Login = () => {
             type={"password"}
             {...register("password", {
               required: { value: true, message: "This input is required" },
+              minLength: { value: 8, message: "Minimum length is 8" },
             })}
+            placeholder={
+              errors.password
+                ? errors.password.message
+                : "Please input password"
+            }
           />
-          <a
-            onClick={() => router.push("register")}
+          <Button
+            type="link"
+            onPress={() => router.push("/register")}
             className={styles.signUpContainer}
           >
             Sign Up
-          </a>
+          </Button>
           <input type={"submit"} className={styles.submitButton} />
         </form>
       </div>

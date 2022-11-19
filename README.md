@@ -14,6 +14,23 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## When to use Interface vs Type
 https://medium.com/@martin_hotell/interface-vs-type-alias-in-typescript-2-7-2a8f1777af4c
 
+## Style conventions
+I find that we cannot use a module className to another component outside our module when those component having it's own style module.
+So to overcome this issue, I came up with some idea:
+- A component should not having it's own style module, instead we have to using css-in-js style, example:
+```typescript
+type ButtonType = "link" | "regular";
+type style = {
+  [key in ButtonType]: CSSProperties;
+};
+const styles: style = {
+  link: {},
+  regular: {
+    padding: "0.3rem",
+  },
+};
+```
+
 ## Getting Started
 
 First, run the development server:
