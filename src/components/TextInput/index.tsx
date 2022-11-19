@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface TextInputProps
@@ -7,9 +7,18 @@ interface TextInputProps
     HTMLInputElement
   > {
   validation: UseFormRegisterReturn;
+  label?: string
+  isError?: boolean
 }
 function TextInput(props: TextInputProps) {
-  return <input {...props} {...props.validation}></input>;
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {props.label && (
+        <label htmlFor={props.label}>{props.label}</label>
+      )}
+      <input {...props} {...props.validation} style={{ animationPlayState: props.isError ? 'running' : 'paused' }}/>
+    </div>
+  )
 }
 
 export default TextInput;

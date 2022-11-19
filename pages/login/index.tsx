@@ -34,9 +34,9 @@ const Login = () => {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <label htmlFor="username">Username</label>
           <TextInput
-            name="a"
+            label="Username"
+            isError={!!errors.password}
             validation={register("email", {
               required: { value: true, message: "This input is required" },
             })}
@@ -45,11 +45,12 @@ const Login = () => {
               errors.email ? errors.email.message : "Please input username"
             }
           />
-          <label htmlFor="password">Password</label>
-          <input
+          <TextInput
+            label="Password"
+            isError={!!errors.password}
             className={styles.input}
             type={"password"}
-            {...register("password", {
+            validation={register("password", {
               required: { value: true, message: "This input is required" },
               minLength: { value: 8, message: "Minimum length is 8" },
             })}
