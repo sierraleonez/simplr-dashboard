@@ -33,7 +33,6 @@ const AuthProvider = ({
   };
 
   const setUserAuthInfo = (resToken: string) => {
-    console.log("token:", resToken);
     localStorage.setItem("token", resToken);
     setAuthState({ token: resToken });
   };

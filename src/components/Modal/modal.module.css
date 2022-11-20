@@ -1,0 +1,31 @@
+.globalModal {
+  position: absolute;
+  width: 18rem;
+  height: 6rem;
+  background-color: #F47174;
+  border-radius: 16px;
+  right: -18rem;
+  top: 1rem;
+  box-shadow: 3px 3px black;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  animation-name: modalOpen, modalClose;
+  animation-duration: 0.4s, 0.4s;
+  animation-direction: normal;
+  animation-delay: 0s, 4400ms;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-fill-mode: both;
+  animation-play-state: running;
+}
+
+@keyframes modalOpen {
+  70% { transform: translateX(-25rem); }
+  100% { transform: translateX(-20rem); }
+}
+
+@keyframes modalClose {
+  70% { transform: translateX(-27rem); }
+  100% { transform: translateX(20rem); }
+}

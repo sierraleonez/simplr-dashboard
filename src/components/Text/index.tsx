@@ -6,8 +6,9 @@ type TextType = "error" | "regular";
 type TextsProps = {
   children: React.ReactNode;
   type?: TextType;
-  fontSize?: number | string
+  fontSize?: number | string;
   style?: CSSProperties;
+  color?: string;
 };
 
 type TextDefault = {
@@ -17,8 +18,18 @@ const StyleClass: TextDefault = {
   error: styles.error,
   regular: styles.regular,
 };
-function Texts({ children, type = "regular", style = {}, fontSize }: TextsProps) {
-  return <span className={StyleClass[type]} style={{ ...style, fontSize }}>{children}</span>;
+function Texts({
+  children,
+  type = "regular",
+  style = {},
+  fontSize,
+  color,
+}: TextsProps) {
+  return (
+    <span className={StyleClass[type]} style={{ ...style, fontSize, color }}>
+      {children}
+    </span>
+  );
 }
 
 export default Texts;

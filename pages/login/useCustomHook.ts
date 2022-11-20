@@ -2,6 +2,7 @@ import { useAuth } from "components/Auth/provider";
 import { CLogin } from "Microservice/Auth/auth";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useModal } from "components/Modal/Global";
 
 type IFormInput = {
   email: string;
@@ -11,6 +12,7 @@ type IFormInput = {
 function useCustomHook() {
   const router = useRouter();
   const authCtx = useAuth();
+  const modalCtx = useModal();
   const {
     register,
     handleSubmit,
@@ -25,12 +27,15 @@ function useCustomHook() {
   }
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => saveToken(data);
+  const onInvalid = () =>
+    modalCtx?.openModal("something is wrong...", "notification");
   return {
     onSubmit,
     register,
     handleSubmit,
     router,
-    errors
+    errors,
+    onInvalid,
   };
 }
 

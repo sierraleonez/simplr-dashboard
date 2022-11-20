@@ -44,7 +44,7 @@ function Button({
 }: ButtonProps) {
   return (
     <div
-      style={{ ...style, color, backgroundColor: bgColor, ...styles[type] }}
+      style={{ ...style, color, backgroundColor: bgColor, ...styles[type], cursor: 'pointer' }}
       className={`${className}`}
       onClick={onPress}
     >

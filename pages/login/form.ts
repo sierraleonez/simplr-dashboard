@@ -10,7 +10,6 @@ type InputForm = (
   errors: FieldErrors<IFormInput>
 ) => TextInputProps[];
 export const LoginForm: InputForm = (register, errors) => {
-  errors.email;
   return [
     {
       label: "Username",
@@ -26,10 +25,10 @@ export const LoginForm: InputForm = (register, errors) => {
       label: "Password",
       containerClass: styles.inputContainer,
       error: errors.password,
-      type: 'password',
+      type: "password",
       validation: register("password", {
         required: { value: true, message: "This input is required" },
-        minLength: { value: 8, message: "Minimum length is 8" }
+        minLength: { value: 8, message: "Minimum length is 8" },
       }),
       className: styles.input,
       placeholder: "Please input password",
