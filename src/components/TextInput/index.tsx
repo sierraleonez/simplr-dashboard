@@ -1,24 +1,48 @@
+import Texts from "components/Text";
 import { DetailedHTMLProps, InputHTMLAttributes, useState } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
-interface TextInputProps
+export interface TextInputProps
   extends DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
   validation: UseFormRegisterReturn;
-  label?: string
-  isError?: boolean
+  label?: string;
+  error?: FieldError;
+  containerClass?: string;
 }
 function TextInput(props: TextInputProps) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {props.label && (
-        <label htmlFor={props.label}>{props.label}</label>
+    <div
+      style={{ display: "flex", flexDirection: "column" }}
+      className={props.containerClass}
+    >
+      {props.label && <label htmlFor={props.label}>{props.label}</label>}
+      <input
+        {...props}
+        {...props.validation}
+        style={{
+          animationPlayState: props.error ? "running" : "paused",
+          boxShadow: props.error ? "2px 2px red" : "2px 2px black",
+        }}
+        onAnimationEnd={() => {}}
+      />
+      {props.error && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+          }}
+        >
+          <Texts type="error" fontSize={14}>
+            {props.error?.message}
+          </Texts>
+        </div>
       )}
-      <input {...props} {...props.validation} style={{ animationPlayState: props.isError ? 'running' : 'paused' }}/>
     </div>
-  )
+  );
 }
 
 export default TextInput;

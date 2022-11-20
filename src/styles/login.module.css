@@ -24,12 +24,15 @@
   padding: 0.5rem 1rem;
   font-size: 16px;
   border-radius: 12px;
-  margin: 0.5rem 0rem 1rem 0rem;
+  margin: 0.5rem 0rem 0.6rem 0rem;
+}
+
+.inputContainer {
+  margin: 0rem 0rem 1rem 0rem;
 }
 
 .input:focus-visible {
   outline: none;
-  /* background-color: #666; */
 }
 
 .submitButton {

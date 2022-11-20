@@ -6,6 +6,7 @@ type TextType = "error" | "regular";
 type TextsProps = {
   children: React.ReactNode;
   type?: TextType;
+  fontSize?: number | string
   style?: CSSProperties;
 };
 
@@ -16,8 +17,8 @@ const StyleClass: TextDefault = {
   error: styles.error,
   regular: styles.regular,
 };
-function Texts({ children, type = "regular", style = {} }: TextsProps) {
-  return <span className={StyleClass[type]} style={style}>{children}</span>;
+function Texts({ children, type = "regular", style = {}, fontSize }: TextsProps) {
+  return <span className={StyleClass[type]} style={{ ...style, fontSize }}>{children}</span>;
 }
 
 export default Texts;
