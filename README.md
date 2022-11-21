@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - [x] Create Axios instance to connect to Auth service
 - [ ] Create service gateway for microservice (BE)
 - [x] Integrate Login auth
-- [ ] Construct Register UI
+- [x] Construct Register UI
 - [ ] Create custom router for defining destination and payload
 - [ ] Custom router to automatically redirect between public, main, and auth
 - [x] Create global modal to display error

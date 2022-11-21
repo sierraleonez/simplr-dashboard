@@ -1,17 +1,39 @@
-import { SubmitHandler, useForm } from "react-hook-form"
-import { RegisterFormFields } from "./form"
+import { useModal } from "components/Modal/Global";
+import { CRegister } from "Microservice/Auth/auth";
+import { useRouter } from "next/router";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { RegisterFormFields } from "./form";
 
 export const useCustomHook = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm<RegisterFormFields>()
-  const onSubmit:SubmitHandler<RegisterFormFields> = (data) => console.log(data) 
+    formState: { errors },
+  } = useForm<RegisterFormFields>();
+  const modalCtx = useModal();
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
+    try {
+      await CRegister(data);
+      modalCtx?.openModal(
+        "Account registered! Please login to your account",
+        "notification"
+      );
+      redirectToLogin();
+    } catch (err: any) {
+      modalCtx?.openModal(err.error.response.data.Message, "error");
+    }
+  };
+
+  function redirectToLogin() {
+    router.push("login");
+  }
   return {
     onSubmit,
     handleSubmit,
     register,
     errors,
-  }
-}
+    redirectToLogin,
+  };
+};

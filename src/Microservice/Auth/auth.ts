@@ -19,4 +19,27 @@ async function CLogin(req: LoginRequest) {
   return res;
 }
 
-export { CLogin };
+type RegisterRequest = {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Password: string;
+};
+
+type RegisterResponse = {};
+
+async function CRegister(req: RegisterRequest) {
+  try {
+    const res = await APICall<RegisterRequest, RegisterResponse>({
+      context: "simplr-auth",
+      method: "post",
+      path: "/register",
+      param: req,
+    });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export { CLogin, CRegister };

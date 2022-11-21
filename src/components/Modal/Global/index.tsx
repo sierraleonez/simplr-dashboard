@@ -74,7 +74,6 @@ type GlobalModalProps = {
 function GlobalModal({ isVisible, onCloseModal, message }: GlobalModalProps) {
   return (
     <div
-      onAnimationEnd={() => console.log("hello")}
       className={styles.globalModal}
       style={{ animationPlayState: isVisible ? "running" : "paused" }}
     >
