@@ -1,36 +1,32 @@
-import { TextInputProps } from "components/TextInput";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { TextInputForm } from "Constants/form";
+import { EMAIL_VALIDATION } from "Constants/regex";
 type IFormInput = {
   email: string;
   password: string;
 };
 import styles from "styles/login.module.css";
-type InputForm = (
-  register: UseFormRegister<IFormInput>,
-  errors: FieldErrors<IFormInput>
-) => TextInputProps[];
-export const LoginForm: InputForm = (register, errors) => {
+
+export const LoginForm: TextInputForm<IFormInput> = (register, errors) => {
   return [
     {
       label: "Username",
-      containerClass: styles.inputContainer,
+      containerclass: styles.inputContainer,
       error: errors.email,
       validation: register("email", {
         required: { value: true, message: "This input is required" },
+        pattern: { value: EMAIL_VALIDATION, message: 'Your email is not valid' }
       }),
-      className: styles.input,
       placeholder: "Please input username",
     },
     {
       label: "Password",
-      containerClass: styles.inputContainer,
+      containerclass: styles.inputContainer,
       error: errors.password,
       type: "password",
       validation: register("password", {
         required: { value: true, message: "This input is required" },
         minLength: { value: 8, message: "Minimum length is 8" },
       }),
-      className: styles.input,
       placeholder: "Please input password",
     },
   ];

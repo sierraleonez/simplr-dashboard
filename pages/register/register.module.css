@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  background-color: burlywood;
+}

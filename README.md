@@ -1,13 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## To Do
-- [ ] Create Axios instance to connect to Auth service
+- [x] Create Axios instance to connect to Auth service
 - [ ] Create service gateway for microservice (BE)
-- [ ] Integrate Login auth
+- [x] Integrate Login auth
 - [ ] Construct Register UI
 - [ ] Create custom router for defining destination and payload
 - [ ] Custom router to automatically redirect between public, main, and auth
-- [ ] Create global modal to display error
+- [x] Create global modal to display error
 - [ ] Integrate [quicktype](https://blog.postman.com/turn-your-postman-collection-into-models-with-quicktype-io/)
 - [ ] Create global package for microservice (BE)
 

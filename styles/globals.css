@@ -36,6 +36,10 @@ input {
   animation-fill-mode: forwards ;
 }
 
+input:focus-visible {
+  outline: none;
+}
+
 error {
   box-shadow: 2px 2px red;
 }

@@ -17,7 +17,7 @@ const Login = () => {
           className={styles.form}
         >
           {LoginForm(register, errors).map((inputProps) => (
-            <TextInput {...inputProps} />
+            <TextInput {...inputProps} key={inputProps.label}/>
           ))}
           <Button
             type="link"
