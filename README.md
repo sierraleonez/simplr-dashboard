@@ -10,6 +10,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - [x] Create global modal to display error
 - [ ] Integrate [quicktype](https://blog.postman.com/turn-your-postman-collection-into-models-with-quicktype-io/)
 - [ ] Create global package for microservice (BE)
+- [ ] JWT with [RSA encryption](https://connect2id.com/products/nimbus-jose-jwt/examples/jwt-with-rsa-encryption) (FE + BE)
 
 ## When to use Interface vs Type
 https://medium.com/@martin_hotell/interface-vs-type-alias-in-typescript-2-7-2a8f1777af4c
