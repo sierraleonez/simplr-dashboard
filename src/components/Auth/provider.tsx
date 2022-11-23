@@ -19,16 +19,18 @@ const AuthProvider = ({
   pageProps: PageProps;
 }) => {
   const [authState, setAuthState] = React.useState({
-    token: "",
+    token: localStorage.getItem("token") || '',
   });
   const router = useRouter();
   const isUserAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setAuthState({ token });
-      return true;
+    if (typeof window !== "undefined") {
+      if (authState.token) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      return false
     }
   };
 
@@ -64,4 +66,5 @@ const AuthProvider = ({
 };
 
 const useAuth = () => useContext(AuthContext);
+export default AuthProvider
 export { AuthContext, AuthProvider, useAuth };

@@ -19,10 +19,14 @@ function useCustomHook() {
     formState: { errors },
   } = useForm<IFormInput>();
   async function saveToken(data: IFormInput) {
-    let res = await CLogin(data);
-    let token = res?.data?.Token || "";
-    if (!res?.error) {
-      authCtx?.setAuthState(token);
+    try {
+      let res = await CLogin(data);
+      let token = res?.data?.Token || "";
+      if (!res?.error) {
+        authCtx?.setAuthState(token);
+      }
+    } catch (err) {
+      modalCtx?.openErrorModal(err)
     }
   }
 
