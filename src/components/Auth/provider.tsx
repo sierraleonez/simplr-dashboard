@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { PageProps } from "../../Constants/Pages";
+import { Router } from "Utils/route/router";
 
 interface AuthContextInterface {
   authState: { token: string };
@@ -19,9 +20,9 @@ const AuthProvider = ({
   pageProps: PageProps;
 }) => {
   const [authState, setAuthState] = React.useState({
-    token: localStorage.getItem("token") || '',
+    token: localStorage.getItem("token") || "",
   });
-  const router = useRouter();
+  const router = new Router();
   const isUserAuthenticated = () => {
     if (typeof window !== "undefined") {
       if (authState.token) {
@@ -30,7 +31,7 @@ const AuthProvider = ({
         return false;
       }
     } else {
-      return false
+      return false;
     }
   };
 
@@ -42,10 +43,10 @@ const AuthProvider = ({
   useEffect(() => {
     switch (pageProps?.flow) {
       case "auth":
-        isUserAuthenticated() && router.push("/dashboard");
+        isUserAuthenticated() && router.push("/dashboard", null);
         break;
       case "main":
-        !isUserAuthenticated() && router.push("/login");
+        !isUserAuthenticated() && router.push("/login", null);
         break;
       default:
         break;
@@ -66,5 +67,5 @@ const AuthProvider = ({
 };
 
 const useAuth = () => useContext(AuthContext);
-export default AuthProvider
+export default AuthProvider;
 export { AuthContext, AuthProvider, useAuth };

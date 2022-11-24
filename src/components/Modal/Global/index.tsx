@@ -9,12 +9,6 @@ type ModalProviderProps = {
   children: React.ReactNode;
 };
 
-type ModalContextInterface = {
-  modalState: GlobalModalState;
-  openModal: openModal;
-  openErrorModal: openErrorModal;
-};
-
 type GlobalModalType = "error" | "warning" | "success" | "notification";
 
 type GlobalModalState = {
@@ -26,7 +20,14 @@ type GlobalModalState = {
 type openModal = (message: string, type: GlobalModalType) => void;
 type openErrorModal = (error: any) => void;
 
+type ModalContextInterface = {
+  modalState: GlobalModalState;
+  openModal: openModal;
+  openErrorModal: openErrorModal;
+};
+
 const ModalContext = React.createContext<ModalContextInterface | null>(null);
+
 const { Provider } = ModalContext;
 function ModalProvider({ children }: ModalProviderProps) {
   const [modalState, setModalState] = useState<GlobalModalState>({
@@ -49,7 +50,7 @@ function ModalProvider({ children }: ModalProviderProps) {
 
   /**
    * Open error modal with specific payload, only accepting AxiosError object
-   * 
+   *
    * if error message from BE response is undefined,
    * then we'll use axios.message field for the error message
    * @warning Use it only with simplr context
@@ -78,7 +79,7 @@ function ModalProvider({ children }: ModalProviderProps) {
       value={{
         modalState,
         openModal,
-        openErrorModal
+        openErrorModal,
       }}
     >
       {modalState.isVisible && (

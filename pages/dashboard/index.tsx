@@ -4,9 +4,11 @@ import { StaticPageProps } from "Constants/Pages";
 
 function Dashboard() {
   const auth = useAuth();
+
   function logout() {
     auth?.setAuthState("");
   }
+
   return (
     <div>
       <Button onPress={logout} type="link">
