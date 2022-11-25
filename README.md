@@ -1,6 +1,15 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
+## Description
+Simplr is web application that enable user to create their own website from scratch with just drag and drop, also allow them to deploy their custom web on simplr domain with their own subdomain name for free.
+
+Not looking for profit, just.. looking for a way to developed an app elegantly:)
+
 ## To Do
+
+Check available task here:
+https://github.com/users/sierraleonez/projects/1/views/1
 - [x] Create Axios instance to connect to Auth service
 - [ ] Create service gateway for microservice (BE)
 - [x] Integrate Login auth
