@@ -1,14 +1,40 @@
 import { useAuth } from "components/Auth/provider";
 import Button from "components/Button";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { StaticPageProps } from "Constants/Pages";
 import { useState } from "react";
+import Texts from "components/Text";
+type task = {
+  id: string;
+  content: string;
+};
 
-const data = {
+type column = {
+  id: string;
+  title: string;
+  taskIds: Array<string>;
+};
+
+type todoType = {
   tasks: {
-    "task-1": { id: "task-1", content: "" },
-    "task-2": { id: "task-2", content: "" },
-    "task-3": { id: "task-3", content: "" },
+    [key: string]: task;
+  };
+  columns: {
+    [key: string]: column;
+  };
+  columnOrder: Array<string>;
+};
+
+const data: todoType = {
+  tasks: {
+    "task-1": { id: "task-1", content: "hi this is task 1" },
+    "task-2": { id: "task-2", content: "hi this is task 2" },
+    "task-3": { id: "task-3", content: "hi this is task 3" },
   },
   columns: {
     "column-1": {
@@ -28,49 +54,83 @@ function Dashboard() {
     auth?.setAuthState("");
   }
 
+  function onDragEnd(res: DropResult) {
+    let src_droppableId = res.source.droppableId;
+    if (!res.destination) {
+      return;
+    }
+
+    if (src_droppableId === res.destination.droppableId) {
+      // Create copy of task id queue
+      let queue = items.columns[src_droppableId].taskIds;
+
+      // Remove source item from queue
+      queue.splice(res.source.index, 1);
+
+      // Add source item to destinationIdx + 1
+      queue.splice(res.destination.index, 0, res.draggableId);
+
+      // Create new state with modified taskIds queue
+      let newState: todoType = {
+        ...items,
+        columns: {
+          [src_droppableId]: {
+            ...items.columns[src_droppableId],
+            taskIds: queue,
+          },
+        },
+      };
+
+      setItems(newState);
+    }
+  }
+
   return (
     <div>
       <Button onPress={logout} type="link">
         <p>Logout</p>
       </Button>
-      <DragDropContext
-        onDragEnd={(a) => {
-          console.log(a.type);
-        }}
-      >
-        <Droppable droppableId="test-1" type="drop">
-          {(provided, snapshot) => (
-            <div>
-              {items.columnOrder.map((column) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  <Draggable draggableId="test-1" index={0} key="aa-1">
+      <DragDropContext onDragEnd={onDragEnd}>
+        {items.columnOrder.map((column) => (
+          <Droppable
+            droppableId={items.columns[column].id}
+            type="drop"
+            key={items.columns[column].id}
+          >
+            {(provided, snapshot) => (
+              <div
+                style={{
+                  backgroundColor: snapshot.isDraggingOver ? "green" : "red",
+                  transition: "background-color 0.1s ease",
+                }}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                key={items.columns[column].title}
+              >
+                <Texts>{items.columns[column].title}</Texts>
+                {items.columns[column].taskIds.map((taskId, idx) => (
+                  <Draggable
+                    draggableId={items.tasks[taskId].id}
+                    index={idx}
+                    key={items.tasks[taskId].id}
+                  >
                     {(a) => (
                       <div
+                        key={items.tasks[taskId].id}
                         {...a.draggableProps}
                         {...a.dragHandleProps}
                         ref={a.innerRef}
                       >
-                        aaa1
+                        {items.tasks[taskId].content}
                       </div>
                     )}
                   </Draggable>
-                  <Draggable draggableId="test-2" index={1} key="aa-2">
-                    {(a) => (
-                      <div
-                        {...a.draggableProps}
-                        {...a.dragHandleProps}
-                        ref={a.innerRef}
-                      >
-                        aaa2
-                      </div>
-                    )}
-                  </Draggable>
-                  {provided.placeholder}
-                </div>
-              ))}
-            </div>
-          )}
-        </Droppable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        ))}
       </DragDropContext>
     </div>
   );
