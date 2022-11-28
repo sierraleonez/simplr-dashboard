@@ -7,7 +7,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { StaticPageProps } from "Constants/Pages";
-import { useState } from "react";
+import React, { useState } from "react";
 import Texts from "components/Text";
 type task = {
   id: string;
@@ -92,47 +92,91 @@ function Dashboard() {
       </Button>
       <DragDropContext onDragEnd={onDragEnd}>
         {items.columnOrder.map((column) => (
-          <Droppable
-            droppableId={items.columns[column].id}
-            type="drop"
-            key={items.columns[column].id}
-          >
-            {(provided, snapshot) => (
-              <div
-                style={{
-                  backgroundColor: snapshot.isDraggingOver ? "green" : "red",
-                  transition: "background-color 0.1s ease",
-                }}
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                key={items.columns[column].title}
-              >
-                <Texts>{items.columns[column].title}</Texts>
-                {items.columns[column].taskIds.map((taskId, idx) => (
-                  <Draggable
-                    draggableId={items.tasks[taskId].id}
-                    index={idx}
-                    key={items.tasks[taskId].id}
-                  >
-                    {(a) => (
-                      <div
-                        key={items.tasks[taskId].id}
-                        {...a.draggableProps}
-                        {...a.dragHandleProps}
-                        ref={a.innerRef}
-                      >
-                        {items.tasks[taskId].content}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+          <Column columnData={items.columns[column]} tasks={items.tasks} />
+          // <Droppable
+          // droppableId={items.columns[column].id}
+          // type="drop"
+          // key={items.columns[column].id}
+          // >
+          //   {(provided, snapshot) => (
+          //     <div
+          //     style={{
+          //       backgroundColor: snapshot.isDraggingOver ? "green" : "red",
+          //       transition: "background-color 0.1s ease",
+          //     }}
+          //     {...provided.droppableProps}
+          //     ref={provided.innerRef}
+          //     key={items.columns[column].title}
+          //     >
+
+          //       <Texts>{items.columns[column].title}</Texts>
+          //       {items.columns[column].taskIds.map((taskId, idx) => (
+          //         <Draggable
+          //           draggableId={items.tasks[taskId].id}
+          //           index={idx}
+          //           key={items.tasks[taskId].id}
+          //         >
+          //           {(a) => (
+          //             <div
+          //               key={items.tasks[taskId].id}
+          //               {...a.draggableProps}
+          //               {...a.dragHandleProps}
+          //               ref={a.innerRef}
+          //             >
+          //               {items.tasks[taskId].content}
+          //             </div>
+          //           )}
+          //         </Draggable>
+          //       ))}
+          //       {provided.placeholder}
+          //     </div>
+          //   )}
+          // </Droppable>
         ))}
       </DragDropContext>
     </div>
+  );
+}
+
+type ColumnProps = {
+  columnData: column;
+  tasks: todoType["tasks"];
+};
+
+function Column({ columnData, tasks }: ColumnProps) {
+  return (
+    <Droppable droppableId={columnData.id} key={columnData.id}>
+      {(provided, snapshot) => (
+        <div
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          key={columnData.id}
+        >
+          <Texts>{columnData.title}</Texts>
+          {columnData.taskIds.map((taskId, idx) => (
+            <DraggableCard idx={idx} taskData={tasks[taskId]} />
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  );
+}
+
+type DraggableCardProps = {
+  taskData: task;
+  idx: number;
+};
+
+function DraggableCard({ taskData, idx }: DraggableCardProps) {
+  return (
+    <Draggable draggableId={taskData.id} key={taskData.id} index={idx}>
+      {(provided, snapshot) => (
+        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+          {taskData.content}
+        </div>
+      )}
+    </Draggable>
   );
 }
 
