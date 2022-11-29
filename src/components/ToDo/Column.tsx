@@ -6,21 +6,38 @@ import DraggableCard from "./DraggableCard";
 type ColumnProps = {
   columnData: ColumnType;
   tasks: TodoTable["tasks"];
+  onDelete: (columnId: string, index: number) => void;
 };
 
-export default function Column({ columnData, tasks }: ColumnProps) {
+export default function Column({ columnData, tasks, onDelete }: ColumnProps) {
   return (
     <Droppable droppableId={columnData.id} key={columnData.id}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <div
+          style={{
+            padding: "16px",
+            border: "black solid 1px",
+            borderRadius: "8px",
+            width: "220px",
+            minHeight: "200px",
+            display: "flex",
+            flexDirection: "column",
+            margin: "16px",
+          }}
           {...provided.droppableProps}
           ref={provided.innerRef}
           key={columnData.id}
         >
-          <Texts>{columnData.title}</Texts>
-          {columnData.taskIds.map((taskId, idx) => (
-            <DraggableCard idx={idx} taskData={tasks[taskId]} />
-          ))}
+          <Texts style={{ marginBottom: "12px" }}>{columnData.title}</Texts>
+          <div style={{ flexGrow: 1 }}>
+            {columnData.taskIds.map((taskId, idx) => (
+              <DraggableCard
+                idx={idx}
+                taskData={tasks[taskId]}
+                onDelete={(index) => onDelete(columnData.id, index)}
+              />
+            ))}
+          </div>
           {provided.placeholder}
         </div>
       )}
