@@ -1,15 +1,23 @@
+import Button from "components/Button";
 import Texts from "components/Text";
 import { ColumnType, TodoTable } from "Constants/Todo";
 import { Droppable } from "react-beautiful-dnd";
+import { MdPostAdd } from "react-icons/md";
 import DraggableCard from "./DraggableCard";
 
 type ColumnProps = {
   columnData: ColumnType;
   tasks: TodoTable["tasks"];
   onDelete: (columnId: string, index: number) => void;
+  onCreateTaskInput: (columnId: string) => void;
 };
 
-export default function Column({ columnData, tasks, onDelete }: ColumnProps) {
+export default function Column({
+  columnData,
+  tasks,
+  onDelete,
+  onCreateTaskInput,
+}: ColumnProps) {
   return (
     <Droppable droppableId={columnData.id} key={columnData.id}>
       {(provided) => (
@@ -28,7 +36,15 @@ export default function Column({ columnData, tasks, onDelete }: ColumnProps) {
           ref={provided.innerRef}
           key={columnData.id}
         >
-          <Texts style={{ marginBottom: "12px" }}>{columnData.title}</Texts>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Texts style={{ marginBottom: "12px" }}>{columnData.title}</Texts>
+            <Button
+              type="link"
+              onPress={() => onCreateTaskInput(columnData.id)}
+            >
+              <MdPostAdd />
+            </Button>
+          </div>
           <div style={{ flexGrow: 1 }}>
             {columnData.taskIds.map((taskId, idx) => (
               <DraggableCard

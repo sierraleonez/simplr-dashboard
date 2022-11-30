@@ -45,6 +45,7 @@ export const DummyTodoData: TodoTable = {
   columnOrder: ["column-1"],
 };
 
+// tasks have to be sorted by ID desc
 export const DummyTodoData_multiColumn: TodoTable = {
   tasks: {
     "task-1": { id: "task-1", content: "hi this is task 1" },

@@ -2,19 +2,33 @@ import { useAuth } from "components/Auth/provider";
 import { DummyTodoData_multiColumn, TodoTable } from "Constants/Todo";
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ICreateTaskInput } from "./form";
 
 export function useCustomHook() {
   const auth = useAuth();
   const [items, setItems] = useState(DummyTodoData_multiColumn);
+  const [atColumn, setAtColumn] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ICreateTaskInput>();
 
   function logout() {
     auth?.setAuthState("");
   }
 
+  // Set which column target of created task
+  function onCreateTaskInput(columnId: string) {
+    console.log(columnId);
+    setAtColumn(columnId);
+  }
+
   // Todo item manipulation function list
 
   function onDragEnd(res: DropResult) {
-    console.log(res.destination)
+    console.log(res.destination);
     let src_droppableId = res.source.droppableId;
     let dest_droppableId = res.destination?.droppableId || "";
     // Create copy of task id queue and column object
@@ -93,12 +107,57 @@ export function useCustomHook() {
     setItems(newState);
   }
 
+  // On submit valid
+  const onCreateTaskSubmit: SubmitHandler<ICreateTaskInput> = (data) => {
+    console.log(items)
+    const newTaskID = createId(items);
+    const newTasks = items.tasks;
+    const newColumn = items.columns[atColumn];
+    // Append new task at tasks
+    newTasks[newTaskID] = {
+      id: newTaskID,
+      content: data.content,
+    };
+
+    // Append new task id at task list of target column
+    newColumn.taskIds.push(newTaskID);
+
+    // Create new state with modified tasks and column
+    const newState: TodoTable = {
+      ...items,
+      tasks: newTasks,
+      columns: {
+        ...items.columns,
+        [atColumn]: newColumn,
+      },
+    };
+
+    setItems(newState);
+  };
+
   // End of todo item manipulation function list
 
   return {
     items,
     logout,
     onDragEnd,
-    deleteItem
+    deleteItem,
+    register,
+    errors,
+    atColumn,
+    handleSubmit,
+    onCreateTaskInput,
+    onCreateTaskSubmit,
   };
+}
+
+function createId(items: TodoTable): string {
+  const listId = Object.keys(items.tasks);
+  const lastTask = listId[listId.length - 1].split("-");
+  console.log(lastTask)
+  let lastId = Number(lastTask[1]);
+  let newId;
+  lastId++;
+  newId = `${lastTask[0]}-${lastId}`;
+  return newId;
 }
