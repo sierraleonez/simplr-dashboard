@@ -21,6 +21,9 @@ export const useCustomHook = () => {
         "notification"
       );
       redirectToLogin();
+      // error block only able to detect any / never type,
+      // so we cannot specify type of error here
+      /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (err: any) {
       modalCtx?.openModal(err.error.response.data.Message, "error");
     }

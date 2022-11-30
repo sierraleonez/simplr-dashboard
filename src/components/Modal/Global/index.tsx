@@ -18,6 +18,7 @@ type GlobalModalState = {
 };
 
 type openModal = (message: string, type: GlobalModalType) => void;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type openErrorModal = (error: any) => void;
 
 type ModalContextInterface = {
@@ -42,7 +43,7 @@ function ModalProvider({ children }: ModalProviderProps) {
    * @param type Type of the modal
    */
   function openModal(
-    message: string = "",
+    message: string,
     type: GlobalModalType = "notification"
   ) {
     setModalState({ isVisible: true, message, type });
@@ -56,6 +57,7 @@ function ModalProvider({ children }: ModalProviderProps) {
    * @warning Use it only with simplr context
    * @param error Error object from catch block (AxiosError Object)
    */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   function openErrorModal(error: any) {
     setModalState({
       isVisible: true,

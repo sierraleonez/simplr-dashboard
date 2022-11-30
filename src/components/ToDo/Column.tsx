@@ -48,6 +48,7 @@ export default function Column({
           <div style={{ flexGrow: 1 }}>
             {columnData.taskIds.map((taskId, idx) => (
               <DraggableCard
+                key={taskId}
                 idx={idx}
                 taskData={tasks[taskId]}
                 onDelete={(index) => onDelete(columnData.id, index)}

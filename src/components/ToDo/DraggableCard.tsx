@@ -18,7 +18,7 @@ export default function DraggableCard({
 }: DraggableCardProps) {
   return (
     <Draggable draggableId={taskData.id} key={taskData.id} index={idx}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <div
           style={{
             padding: "8px",

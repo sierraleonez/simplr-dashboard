@@ -9,7 +9,7 @@ type CustomAxiosInstance = (context: APIContext) => AxiosInstance;
  * @returns AxiosInstance
  */
 const netInstance: CustomAxiosInstance = (context) => {
-  let baseURL = getBaseUrl(context);
+  const baseURL = getBaseUrl(context);
   return axios.create({
     baseURL,
     timeout: 5000,
@@ -43,6 +43,7 @@ type Request<T> = {
 
 type Response<T> = {
   data: T | null;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   error: any;
 };
 
@@ -55,8 +56,7 @@ function APICall<TRequest, TResponse>(
   req: Request<TRequest>
 ): Promise<Response<TResponse>> {
   return new Promise(function (resolve, reject) {
-    netInstance(req.context)
-      [req.method](req.path, req.param)
+    netInstance(req.context)[req.method](req.path, req.param)
       .then(({ data }) => {
         resolve({ data: data.Data, error: null });
       })

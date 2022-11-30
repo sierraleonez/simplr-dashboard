@@ -50,6 +50,7 @@ const AuthProvider = ({
       default:
         break;
     }
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [authState.token, pageProps.flow]);
 
   return (

@@ -1,6 +1,5 @@
 import Texts from "components/Text";
-import { none } from "Constants/Auth/Auth";
-import { DetailedHTMLProps, InputHTMLAttributes, useState } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 export interface TextInputProps
@@ -32,7 +31,6 @@ function TextInput(props: TextInputProps) {
           borderRadius: '12px',
           margin: '0.5rem 0rem 0.6rem 0rem',
         }}
-        onAnimationEnd={() => {}}
       />
       {props.error && (
         <div

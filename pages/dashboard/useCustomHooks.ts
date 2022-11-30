@@ -21,18 +21,16 @@ export function useCustomHook() {
 
   // Set which column target of created task
   function onCreateTaskInput(columnId: string) {
-    console.log(columnId);
     setAtColumn(columnId);
   }
 
   // Todo item manipulation function list
 
   function onDragEnd(res: DropResult) {
-    console.log(res.destination);
-    let src_droppableId = res.source.droppableId;
-    let dest_droppableId = res.destination?.droppableId || "";
+    const src_droppableId = res.source.droppableId;
+    const dest_droppableId = res.destination?.droppableId || "";
     // Create copy of task id queue and column object
-    let src_taskList = items.columns[src_droppableId].taskIds;
+    const src_taskList = items.columns[src_droppableId].taskIds;
 
     // If no droppable handles user drop
     if (!res.destination) {
@@ -48,7 +46,7 @@ export function useCustomHook() {
       src_taskList.splice(res.destination.index, 0, res.draggableId);
 
       // Create new state with modified taskIds src_taskList
-      let newState: TodoTable = {
+      const newState: TodoTable = {
         ...items,
         columns: {
           ...items["columns"],
@@ -61,7 +59,7 @@ export function useCustomHook() {
 
       setItems(newState);
     } else {
-      let dest_taskList = items.columns[dest_droppableId].taskIds;
+      const dest_taskList = items.columns[dest_droppableId].taskIds;
 
       // Remove source item from source task list
       src_taskList.splice(res.source.index, 1);
@@ -69,7 +67,7 @@ export function useCustomHook() {
       // Add source item to destination column at destinationIdx + 1
       dest_taskList.splice(res.destination.index, 0, res.draggableId);
 
-      let newState: TodoTable = {
+      const newState: TodoTable = {
         ...items,
         columns: {
           ...items["columns"],
@@ -89,11 +87,11 @@ export function useCustomHook() {
   }
 
   function deleteItem(columnId: string, index: number) {
-    let taskList = items.columns[columnId].taskIds;
+    const taskList = items.columns[columnId].taskIds;
 
     taskList.splice(index, 1);
 
-    let newState: TodoTable = {
+    const newState: TodoTable = {
       ...items,
       columns: {
         ...items.columns,
@@ -109,7 +107,6 @@ export function useCustomHook() {
 
   // On submit valid
   const onCreateTaskSubmit: SubmitHandler<ICreateTaskInput> = (data) => {
-    console.log(items)
     const newTaskID = createId(items);
     const newTasks = items.tasks;
     const newColumn = items.columns[atColumn];
@@ -154,9 +151,8 @@ export function useCustomHook() {
 function createId(items: TodoTable): string {
   const listId = Object.keys(items.tasks);
   const lastTask = listId[listId.length - 1].split("-");
-  console.log(lastTask)
   let lastId = Number(lastTask[1]);
-  let newId;
+  let newId = '';
   lastId++;
   newId = `${lastTask[0]}-${lastId}`;
   return newId;

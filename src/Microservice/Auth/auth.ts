@@ -10,17 +10,13 @@ type LoginRequest = {
 };
 
 async function CLogin(req: LoginRequest) {
-  try {
-    const res = await APICall<LoginRequest, LoginResponse>({
-      context: "simplr-auth",
-      method: "post",
-      path: "/login",
-      param: req,
-    });
-    return res;
-  } catch (error) {
-    throw error;
-  }
+  const res = await APICall<LoginRequest, LoginResponse>({
+    context: "simplr-auth",
+    method: "post",
+    path: "/login",
+    param: req,
+  });
+  return res;
 }
 
 type RegisterRequest = {
@@ -30,20 +26,16 @@ type RegisterRequest = {
   Password: string;
 };
 
-type RegisterResponse = {};
+type RegisterResponse = null;
 
 async function CRegister(req: RegisterRequest) {
-  try {
-    const res = await APICall<RegisterRequest, RegisterResponse>({
-      context: "simplr-auth",
-      method: "post",
-      path: "/register",
-      param: req,
-    });
-    return res;
-  } catch (err) {
-    throw err;
-  }
+  const res = await APICall<RegisterRequest, RegisterResponse>({
+    context: "simplr-auth",
+    method: "post",
+    path: "/register",
+    param: req,
+  });
+  return res;
 }
 
 export { CLogin, CRegister };

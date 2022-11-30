@@ -27,6 +27,7 @@ export default function Columns({
             onCreateTaskInput={onCreateTaskInput}
             columnData={item.columns[columnId]}
             tasks={item.tasks}
+            key={columnId}
             onDelete={onDelete}
           />
         ))}
