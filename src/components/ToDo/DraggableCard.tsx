@@ -1,7 +1,7 @@
 import Button from "components/Button";
 import { TaskType } from "Constants/Todo";
 import { Draggable } from "react-beautiful-dnd";
-import { MdDelete } from "react-icons/md";
+import { MdCreate, MdDelete } from "react-icons/md";
 
 type DraggableCardProps = {
   taskData: TaskType;
@@ -35,16 +35,21 @@ export default function DraggableCard({
               borderRadius: "8px",
               backgroundColor: "white",
               marginBottom: "8px",
-              display: 'flex',
-              justifyContent: 'space-between'
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
             {taskData.content}
-            {isDeleteable && (
-              <Button type="link" onPress={() => onDelete(idx)}>
-                <MdDelete color="red"/>
+            <div style={{ display: 'flex' }}>
+              <Button type="link" onPress={() => {}} style={{ marginRight: '8px' }}>
+                <MdCreate />
               </Button>
-            )}
+              {isDeleteable && (
+                <Button type="link" onPress={() => onDelete(idx)}>
+                  <MdDelete color="red" />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       )}

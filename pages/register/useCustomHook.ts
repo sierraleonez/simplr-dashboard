@@ -32,6 +32,7 @@ export const useCustomHook = () => {
   function redirectToLogin() {
     router.push("login");
   }
+
   return {
     onSubmit,
     handleSubmit,
