@@ -37,7 +37,7 @@ export default function Column({
           key={columnData.id}
         >
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Texts style={{ marginBottom: "12px" }}>{columnData.title}</Texts>
+            <Texts style={{ marginBottom: "12px" }}>{columnData.title} ({columnData.taskIds.length} items)</Texts>
             <Button
               type="link"
               onPress={() => onCreateTaskInput(columnData.id)}

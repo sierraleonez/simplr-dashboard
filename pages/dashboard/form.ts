@@ -3,6 +3,7 @@ import { TextInputForm } from "Constants/form";
 export type ICreateTaskInput = {
   content: string
 }
+
 export const CreateTaskForm: TextInputForm<ICreateTaskInput> = (register, errors) => {
   return [
     {

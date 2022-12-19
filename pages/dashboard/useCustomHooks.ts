@@ -7,6 +7,7 @@ import { ICreateTaskInput } from "./form";
 
 export function useCustomHook() {
   const auth = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const [items, setItems] = useState(DummyTodoData_multiColumn);
   const [atColumn, setAtColumn] = useState<string>("");
   const {
@@ -137,12 +138,14 @@ export function useCustomHook() {
   return {
     items,
     logout,
+    errors,
+    register,
+    atColumn,
     onDragEnd,
     deleteItem,
-    register,
-    errors,
-    atColumn,
+    isModalOpen,
     handleSubmit,
+    setIsModalOpen,
     onCreateTaskInput,
     onCreateTaskSubmit,
   };
@@ -152,7 +155,7 @@ function createId(items: TodoTable): string {
   const listId = Object.keys(items.tasks);
   const lastTask = listId[listId.length - 1].split("-");
   let lastId = Number(lastTask[1]);
-  let newId = '';
+  let newId = "";
   lastId++;
   newId = `${lastTask[0]}-${lastId}`;
   return newId;

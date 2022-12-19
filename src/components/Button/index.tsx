@@ -1,14 +1,18 @@
 import { CSSProperties, MouseEvent } from "react";
+
 type ButtonType = "link" | "regular";
+
 type style = {
   [key in ButtonType]: CSSProperties;
 };
+
 const styles: style = {
   link: {},
   regular: {
     padding: "0.3rem",
   },
 };
+
 interface ButtonProps {
   type: ButtonType;
   onPress: (event: MouseEvent<HTMLDivElement>) => void;
@@ -44,7 +48,13 @@ function Button({
 }: ButtonProps) {
   return (
     <div
-      style={{ ...style, color, backgroundColor: bgColor, ...styles[type], cursor: 'pointer' }}
+      style={{
+        ...style,
+        color,
+        backgroundColor: bgColor,
+        ...styles[type],
+        cursor: "pointer",
+      }}
       className={`${className}`}
       onClick={onPress}
     >

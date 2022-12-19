@@ -40,8 +40,12 @@ export default function DraggableCard({
             }}
           >
             {taskData.content}
-            <div style={{ display: 'flex' }}>
-              <Button type="link" onPress={() => console.log('test')} style={{ marginRight: '8px' }}>
+            <div style={{ display: "flex" }}>
+              <Button
+                type="link"
+                onPress={() => console.log("test")}
+                style={{ marginRight: "8px" }}
+              >
                 <MdCreate />
               </Button>
               {isDeleteable && (
