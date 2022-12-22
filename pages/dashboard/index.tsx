@@ -1,13 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import Button from "components/Button";
 import { MdClose } from "react-icons/md";
 import { StaticPageProps } from "Constants/Pages";
-import Columns from "components/ToDo/Columns";
 import { useCustomHook } from "./useCustomHooks";
-import Texts from "components/Text";
-import TextInput from "components/TextInput";
 import { CreateTaskForm } from "./form";
 import styles from "./dashboard.module.css";
+import {
+  FocusWrapper,
+  Button,
+  Text,
+  TextInput,
+  Columns,
+  ActionModal,
+} from "components";
 
 function Dashboard() {
   const {
@@ -26,7 +29,10 @@ function Dashboard() {
   } = useCustomHook();
   return (
     <div>
-      <ActionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ContentModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <Button onPress={logout} type="link">
         <p>Logout</p>
       </Button>
@@ -37,7 +43,7 @@ function Dashboard() {
         onCreateTaskInput={onCreateTaskInput}
       />
       <div style={{ width: "300px" }}>
-        <Texts>At column: {atColumn}</Texts>
+        <Text>At column: {atColumn}</Text>
         <form onSubmit={handleSubmit(onCreateTaskSubmit)}>
           {CreateTaskForm(register, errors).map((inputProps) => (
             <TextInput {...inputProps} key={inputProps.label} />
@@ -49,100 +55,71 @@ function Dashboard() {
   );
 }
 
-function useFocus() {
-  const htmlRef = useRef<HTMLInputElement>(null);
-  const setFocus = () => {
-    console.log(!!htmlRef.current?.id);
-    htmlRef.current && htmlRef.current.focus();
-  };
-
-  return { htmlRef, setFocus };
-}
-
-type Provided = {
-  ref: React.RefObject<HTMLInputElement | HTMLTextAreaElement>;
-  className: string;
-  disabled: boolean;
-  onBlur: () => void;
-  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-};
-type FocusWrapperProps = {
-  children: (provided: Provided) => React.ReactNode;
-};
-function FocusWrapper({ children }: FocusWrapperProps) {
-  const [isFieldDisabled, setIsFieldDisabled] = useState<boolean>(true);
-  const { htmlRef, setFocus } = useFocus();
-
-  useEffect(() => {
-    if (!isFieldDisabled) {
-      setFocus();
-    }
-  }, [isFieldDisabled]);
-
-  function onBlur() {
-    setIsFieldDisabled(true);
-  }
-
-  function onKeyDown(
-    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    if (event.code === "Escape") {
-      event.currentTarget.blur();
-    }
-  }
-  console.log(children.name);
-  const Provided = {
-    ref: htmlRef,
-    className: styles.inputContainer,
-    disabled: isFieldDisabled,
-    onBlur,
-    onKeyDown,
-  };
-  return (
-    <div
-      onClick={() => {
-        setIsFieldDisabled(false);
-      }}
-    >
-      {children(Provided)}
-    </div>
-  );
-}
-
 type ActionModalProps = {
   onClose: () => void;
   isOpen: boolean;
 };
 
-function ActionModal({ isOpen, onClose }: ActionModalProps) {
-  if (isOpen) {
-    return (
-      <div className={styles.modalOverlay}>
+function ContentModal({ isOpen, onClose }: ActionModalProps) {
+  return (
+    <ActionModal isOpen={isOpen} onClose={onClose}>
+      <div style={{ display: "flex" }}>
+        <FocusWrapper style={{ flex: 1 }}>
+          {(provided) => (
+            <input
+              {...provided}
+              className={styles.inputContainer}
+              placeholder="Input your title here"
+              style={{
+                width: "100%",
+                flex: 1,
+                padding: "8px",
+                borderRadius: "4px",
+              }}
+            />
+          )}
+        </FocusWrapper>
+        <FocusWrapper style={{ flex: 1, height: "50%" }}>
+          {(provided) => (
+            <textarea
+              {...provided}
+              placeholder="input your content here"
+              style={{
+                overflowY: "scroll",
+                height: "100%",
+                resize: "none",
+                width: "95%",
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          )}
+        </FocusWrapper>
         <div
           style={{
-            backgroundColor: "#FFF",
-            width: "40%",
-            height: "60%",
-            borderRadius: 16,
-            padding: "16px",
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: 16,
+            marginRight: 32,
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <FocusWrapper>{(provided) => <input {...provided} />}</FocusWrapper>
-
-            <Button onPress={onClose} type="link">
-              <MdClose />
-            </Button>
-          </div>
+          <Button
+            type="regular"
+            onPress={() => "hello"}
+            style={{ width: "10%", borderRadius: 8 }}
+            bgColor="#ADD8E6"
+          >
+            Save
+          </Button>
         </div>
-          <FocusWrapper>
-            {(provided) => <textarea {...provided} />}
-          </FocusWrapper>
+        <div>
+          <Button onPress={onClose} type="link" style={{ marginLeft: "64px" }}>
+            <MdClose size={24} />
+          </Button>
+        </div>
       </div>
-    );
-  } else {
-    return null;
-  }
+    </ActionModal>
+  );
 }
 
 export async function getStaticProps(): Promise<StaticPageProps> {

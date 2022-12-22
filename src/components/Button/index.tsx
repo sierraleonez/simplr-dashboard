@@ -55,7 +55,7 @@ function Button({
         ...styles[type],
         cursor: "pointer",
       }}
-      className={`${className}`}
+      className={className}
       onClick={onPress}
     >
       {children}

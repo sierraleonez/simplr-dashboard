@@ -41,6 +41,7 @@ const styles: style = {
   },
 };
 ```
+<br/>
 
 ## Getting Started
 

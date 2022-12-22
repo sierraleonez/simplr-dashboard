@@ -22,6 +22,7 @@ export function useCustomHook() {
 
   // Set which column target of created task
   function onCreateTaskInput(columnId: string) {
+    setIsModalOpen(true)
     setAtColumn(columnId);
   }
 

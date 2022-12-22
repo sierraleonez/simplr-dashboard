@@ -10,12 +10,10 @@
   justify-items: center;
 }
 
-.inputContainer {
-  border: none;
+.modalContainer {
   background-color: white;
+  width: 40%;
+  height: 60%;
+  border-radius: 1rem;
+  padding: 1rem;
 }
-
-.inputContainer:disabled:hover {
-  background-color: #ccc;
-}
-
