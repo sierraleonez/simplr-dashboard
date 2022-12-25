@@ -2,7 +2,6 @@ import { useAuth } from "components/Auth/provider";
 import { DummyTodoData_multiColumn, TodoTable } from "Constants/Todo";
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { ICreateTaskInput } from "./form";
 
 export function useCustomHook() {
@@ -12,11 +11,6 @@ export function useCustomHook() {
   const [contentValue, setContentValue] = useState("");
   const [items, setItems] = useState(DummyTodoData_multiColumn);
   const [atColumn, setAtColumn] = useState<string>("");
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ICreateTaskInput>();
 
   function logout() {
     auth?.setAuthState("");
@@ -141,15 +135,12 @@ export function useCustomHook() {
   return {
     items,
     logout,
-    errors,
-    register,
     atColumn,
     onDragEnd,
     deleteItem,
     titleValue,
     isModalOpen,
     contentValue,
-    handleSubmit,
     setTitleValue,
     setIsModalOpen,
     setContentValue,
@@ -162,7 +153,7 @@ export function useCustomHook() {
  * Generate new unique ID by examining current data
  * MIGRATE TO NANOID ASAP
  * @param items
- * @returns
+ * @returns new ID
  */
 function createId(items: TodoTable): string {
   const listId = Object.keys(items.tasks);
