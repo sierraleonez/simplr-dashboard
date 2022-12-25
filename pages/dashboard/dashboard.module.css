@@ -10,12 +10,25 @@
   justify-items: center;
 }
 
-.inputContainer {
+.titleInput {
   border: none;
   background-color: white;
+  width: 100%;
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
-.inputContainer:disabled:hover {
+.titleInput:disabled:hover {
   background-color: #ccc;
+}
+
+.contentTextArea {
+  overflow-y: scroll;
+  height: 100%;
+  resize: none;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 

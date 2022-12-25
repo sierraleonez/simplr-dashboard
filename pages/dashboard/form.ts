@@ -1,19 +1,26 @@
 import { TextInputForm } from "Constants/form";
 
 export type ICreateTaskInput = {
-  content: string
-}
+  title: string;
+  content: string;
+};
 
-export const CreateTaskForm: TextInputForm<ICreateTaskInput> = (register, errors) => {
+export const CreateTaskForm: TextInputForm<ICreateTaskInput> = (
+  register,
+  errors
+) => {
   return [
     {
-      label: "Content",
-      // containerclass: styles.inputContainer,
-      error: errors.content,
-      validation: register("content", {
+      error: errors.title,
+      validation: register("title", {
         required: { value: true, message: "This input is required" },
       }),
-      placeholder: "Please input content of task",
+    },
+    {
+      error: errors.content,
+      validation: register("content", {
+        required: false
+      }),
     },
   ];
 };

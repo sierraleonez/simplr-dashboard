@@ -8,6 +8,8 @@ import { ICreateTaskInput } from "./form";
 export function useCustomHook() {
   const auth = useAuth();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+  const [titleValue, setTitleValue] = useState("");
+  const [contentValue, setContentValue] = useState("");
   const [items, setItems] = useState(DummyTodoData_multiColumn);
   const [atColumn, setAtColumn] = useState<string>("");
   const {
@@ -22,7 +24,7 @@ export function useCustomHook() {
 
   // Set which column target of created task
   function onCreateTaskInput(columnId: string) {
-    setIsModalOpen(true)
+    setIsModalOpen(true);
     setAtColumn(columnId);
   }
 
@@ -108,7 +110,7 @@ export function useCustomHook() {
   }
 
   // On submit valid
-  const onCreateTaskSubmit: SubmitHandler<ICreateTaskInput> = (data) => {
+  const onCreateTaskSubmit: (data: ICreateTaskInput) => void = (data) => {
     const newTaskID = createId(items);
     const newTasks = items.tasks;
     const newColumn = items.columns[atColumn];
@@ -144,14 +146,24 @@ export function useCustomHook() {
     atColumn,
     onDragEnd,
     deleteItem,
+    titleValue,
     isModalOpen,
+    contentValue,
     handleSubmit,
+    setTitleValue,
     setIsModalOpen,
+    setContentValue,
     onCreateTaskInput,
     onCreateTaskSubmit,
   };
 }
 
+/**
+ * Generate new unique ID by examining current data
+ * MIGRATE TO NANOID ASAP
+ * @param items
+ * @returns
+ */
 function createId(items: TodoTable): string {
   const listId = Object.keys(items.tasks);
   const lastTask = listId[listId.length - 1].split("-");

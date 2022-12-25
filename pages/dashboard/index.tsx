@@ -1,28 +1,22 @@
 import { MdClose } from "react-icons/md";
 import { StaticPageProps } from "Constants/Pages";
 import { useCustomHook } from "./useCustomHooks";
-import { CreateTaskForm } from "./form";
+import { ICreateTaskInput } from "./form";
 import styles from "./dashboard.module.css";
-import {
-  FocusWrapper,
-  Button,
-  Text,
-  TextInput,
-  Columns,
-  ActionModal,
-} from "components";
+import { FocusWrapper, Button, Text, Columns, ActionModal } from "components";
 
 function Dashboard() {
   const {
     logout,
     items,
-    errors,
     atColumn,
-    register,
     onDragEnd,
     deleteItem,
+    contentValue,
+    setContentValue,
+    setTitleValue,
+    titleValue,
     isModalOpen,
-    handleSubmit,
     setIsModalOpen,
     onCreateTaskInput,
     onCreateTaskSubmit,
@@ -32,6 +26,11 @@ function Dashboard() {
       <ContentModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        contentValue={contentValue}
+        titleValue={titleValue}
+        setTitlevalue={setTitleValue}
+        setContentValue={setContentValue}
+        onCreateTaskSubmit={onCreateTaskSubmit}
       />
       <Button onPress={logout} type="link">
         <p>Logout</p>
@@ -44,12 +43,6 @@ function Dashboard() {
       />
       <div style={{ width: "300px" }}>
         <Text>At column: {atColumn}</Text>
-        <form onSubmit={handleSubmit(onCreateTaskSubmit)}>
-          {CreateTaskForm(register, errors).map((inputProps) => (
-            <TextInput {...inputProps} key={inputProps.label} />
-          ))}
-          <input type={"submit"} />
-        </form>
       </div>
     </div>
   );
@@ -58,65 +51,60 @@ function Dashboard() {
 type ActionModalProps = {
   onClose: () => void;
   isOpen: boolean;
+  contentValue: string;
+  titleValue: string;
+  setTitlevalue: (title: string) => void;
+  setContentValue: (content: string) => void;
+  onCreateTaskSubmit: (data: ICreateTaskInput) => void;
 };
 
-function ContentModal({ isOpen, onClose }: ActionModalProps) {
+function ContentModal({
+  isOpen,
+  onClose,
+  contentValue,
+  setContentValue,
+  setTitlevalue,
+  titleValue,
+  onCreateTaskSubmit,
+}: ActionModalProps) {
   return (
     <ActionModal isOpen={isOpen} onClose={onClose}>
       <div style={{ display: "flex" }}>
-        <FocusWrapper style={{ flex: 1 }}>
-          {(provided) => (
-            <input
-              {...provided}
-              className={styles.inputContainer}
-              placeholder="Input your title here"
-              style={{
-                width: "100%",
-                flex: 1,
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          )}
-        </FocusWrapper>
-        <FocusWrapper style={{ flex: 1, height: "50%" }}>
-          {(provided) => (
-            <textarea
-              {...provided}
-              placeholder="input your content here"
-              style={{
-                overflowY: "scroll",
-                height: "100%",
-                resize: "none",
-                width: "95%",
-                borderRadius: 8,
-                padding: 8,
-              }}
-            />
-          )}
-        </FocusWrapper>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: 16,
-            marginRight: 32,
-          }}
-        >
-          <Button
-            type="regular"
-            onPress={() => "hello"}
-            style={{ width: "10%", borderRadius: 8 }}
-            bgColor="#ADD8E6"
+        <div style={{ flex: 2 }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onCreateTaskSubmit({ content: contentValue, title: titleValue });
+            }}
           >
-            Save
-          </Button>
+            <FocusWrapper style={{ flex: 1 }}>
+              {(provided) => (
+                <input
+                  value={titleValue}
+                  onChange={(event) => setTitlevalue(event.target.value)}
+                  {...provided}
+                  className={styles.titleInput}
+                  placeholder="Input your title here"
+                />
+              )}
+            </FocusWrapper>
+            <FocusWrapper style={{ flex: 1, height: "60%" }}>
+              {(provided) => (
+                <textarea
+                  value={contentValue}
+                  onChange={(event) => setContentValue(event.target.value)}
+                  {...provided}
+                  placeholder="input your content here"
+                  className={styles.contentTextArea}
+                />
+              )}
+            </FocusWrapper>
+            <input type={"submit"} />
+          </form>
         </div>
-        <div>
-          <Button onPress={onClose} type="link" style={{ marginLeft: "64px" }}>
-            <MdClose size={24} />
-          </Button>
-        </div>
+        <Button onPress={onClose} type="link" style={{ marginLeft: "64px" }}>
+          <MdClose size={24} />
+        </Button>
       </div>
     </ActionModal>
   );
