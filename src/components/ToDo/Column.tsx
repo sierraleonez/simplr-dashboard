@@ -10,11 +10,13 @@ type ColumnProps = {
   tasks: TodoTable["tasks"];
   onDelete: (columnId: string, index: number) => void;
   onCreateTaskInput: (columnId: string) => void;
+  onEdit: (columnId: string, index: number) => void
 };
 
 export default function Column({
   columnData,
   tasks,
+  onEdit,
   onDelete,
   onCreateTaskInput,
 }: ColumnProps) {
@@ -51,6 +53,7 @@ export default function Column({
                 key={taskId}
                 idx={idx}
                 taskData={tasks[taskId]}
+                onEdit={(index) => onEdit(columnData.id, index)}
                 onDelete={(index) => onDelete(columnData.id, index)}
               />
             ))}

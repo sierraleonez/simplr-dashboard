@@ -3,13 +3,12 @@ import { StaticPageProps } from "Constants/Pages";
 import { useCustomHook } from "./useCustomHooks";
 import { ICreateTaskInput } from "./form";
 import styles from "./dashboard.module.css";
-import { FocusWrapper, Button, Text, Columns, ActionModal } from "components";
+import { FocusWrapper, Button, Columns, ActionModal } from "components";
 
 function Dashboard() {
   const {
     logout,
     items,
-    atColumn,
     onDragEnd,
     deleteItem,
     contentValue,
@@ -17,15 +16,18 @@ function Dashboard() {
     setTitleValue,
     titleValue,
     isModalOpen,
-    setIsModalOpen,
+    onSubmitModal,
     onCreateTaskInput,
     onCreateTaskSubmit,
+    onCloseModal,
+    openEditModal,
   } = useCustomHook();
   return (
     <div>
       <ContentModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={onCloseModal}
+        onSubmitModal={onSubmitModal}
         contentValue={contentValue}
         titleValue={titleValue}
         setTitlevalue={setTitleValue}
@@ -38,17 +40,15 @@ function Dashboard() {
       <Columns
         item={items}
         onDragEnd={onDragEnd}
+        onEdit={openEditModal}
         onDelete={deleteItem}
         onCreateTaskInput={onCreateTaskInput}
       />
-      <div style={{ width: "300px" }}>
-        <Text>At column: {atColumn}</Text>
-      </div>
     </div>
   );
 }
 
-type ActionModalProps = {
+type ContentModalProps = {
   onClose: () => void;
   isOpen: boolean;
   contentValue: string;
@@ -56,6 +56,7 @@ type ActionModalProps = {
   setTitlevalue: (title: string) => void;
   setContentValue: (content: string) => void;
   onCreateTaskSubmit: (data: ICreateTaskInput) => void;
+  onSubmitModal: () => void;
 };
 
 function ContentModal({
@@ -65,16 +66,16 @@ function ContentModal({
   setContentValue,
   setTitlevalue,
   titleValue,
-  onCreateTaskSubmit,
-}: ActionModalProps) {
+  onSubmitModal,
+}: ContentModalProps) {
   return (
-    <ActionModal isOpen={isOpen} onClose={onClose}>
+    <ActionModal isOpen={isOpen}>
       <div style={{ display: "flex" }}>
         <div style={{ flex: 2 }}>
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              onCreateTaskSubmit({ content: contentValue, title: titleValue });
+              onSubmitModal();
             }}
           >
             <FocusWrapper style={{ flex: 1 }}>

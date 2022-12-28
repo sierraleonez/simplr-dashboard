@@ -5,6 +5,7 @@
 export type TaskType = {
   id: string;
   content: string;
+  title: string;
 };
 
 /**
@@ -18,10 +19,12 @@ export type ColumnType = {
   taskIds: Array<string>;
 };
 
+export type TasksType = {
+  [key: string]: TaskType
+}
+
 export type TodoTable = {
-  tasks: {
-    [key: string]: TaskType;
-  };
+  tasks: TasksType;
   columns: {
     [key: string]: ColumnType;
   };
@@ -31,9 +34,9 @@ export type TodoTable = {
 // Example + Dummy
 export const DummyTodoData: TodoTable = {
   tasks: {
-    "task-1": { id: "task-1", content: "hi this is task 1" },
-    "task-2": { id: "task-2", content: "hi this is task 2" },
-    "task-3": { id: "task-3", content: "hi this is task 3" },
+    "task-1": { id: "task-1", content: "hi this is task 1", title: "" },
+    "task-2": { id: "task-2", content: "hi this is task 2", title: "" },
+    "task-3": { id: "task-3", content: "hi this is task 3", title: "" },
   },
   columns: {
     "column-1": {
@@ -48,15 +51,15 @@ export const DummyTodoData: TodoTable = {
 // tasks have to be sorted by ID desc
 export const DummyTodoData_multiColumn: TodoTable = {
   tasks: {
-    "task-1": { id: "task-1", content: "hi this is task 1" },
-    "task-2": { id: "task-2", content: "hi this is task 2" },
-    "task-3": { id: "task-3", content: "hi this is task 3" },
-    "task-4": { id: "task-4", content: "hi this is task 4" },
-    "task-5": { id: "task-5", content: "hi this is task 5" },
-    "task-6": { id: "task-6", content: "hi this is task 6" },
-    "task-7": { id: "task-7", content: "hi this is task 7" },
-    "task-8": { id: "task-8", content: "hi this is task 8" },
-    "task-9": { id: "task-9", content: "hi this is task 9" },
+    "task-1": { id: "task-1", content: "hi this is task 1", title: "" },
+    "task-2": { id: "task-2", content: "hi this is task 2", title: "" },
+    "task-3": { id: "task-3", content: "hi this is task 3", title: "" },
+    "task-4": { id: "task-4", content: "hi this is task 4", title: "" },
+    "task-5": { id: "task-5", content: "hi this is task 5", title: "" },
+    "task-6": { id: "task-6", content: "hi this is task 6", title: "" },
+    "task-7": { id: "task-7", content: "hi this is task 7", title: "" },
+    "task-8": { id: "task-8", content: "hi this is task 8", title: "" },
+    "task-9": { id: "task-9", content: "hi this is task 9", title: "" },
   },
   columns: {
     "column-1": {

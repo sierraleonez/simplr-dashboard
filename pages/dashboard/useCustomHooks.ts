@@ -1,15 +1,26 @@
 import { useAuth } from "components/Auth/provider";
-import { DummyTodoData_multiColumn, TodoTable } from "Constants/Todo";
+import {
+  DummyTodoData_multiColumn,
+  TasksType,
+  TodoTable,
+} from "Constants/Todo";
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { ICreateTaskInput } from "./form";
 
+type ActionModalType = "create" | "edit";
+type EditModalProps = {
+  columnId: string;
+  taskId: string;
+};
 export function useCustomHook() {
   const auth = useAuth();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const [titleValue, setTitleValue] = useState("");
   const [contentValue, setContentValue] = useState("");
+  const [modalType, setModalType] = useState<ActionModalType>("create");
   const [items, setItems] = useState(DummyTodoData_multiColumn);
+  const [ModalData, setModalData] = useState<EditModalProps>();
   const [atColumn, setAtColumn] = useState<string>("");
 
   function logout() {
@@ -18,6 +29,7 @@ export function useCustomHook() {
 
   // Set which column target of created task
   function onCreateTaskInput(columnId: string) {
+    setModalType("create");
     setIsModalOpen(true);
     setAtColumn(columnId);
   }
@@ -112,6 +124,7 @@ export function useCustomHook() {
     newTasks[newTaskID] = {
       id: newTaskID,
       content: data.content,
+      title: data.title,
     };
 
     // Append new task id at task list of target column
@@ -130,7 +143,65 @@ export function useCustomHook() {
     setItems(newState);
   };
 
+  function onEditItem() {
+    const taskList = items.tasks;
+    const currentTask = items.tasks[ModalData?.taskId || ""];
+    const newTasks: TasksType = {
+      ...taskList,
+      [ModalData?.taskId || ""]: {
+        ...currentTask,
+        content: contentValue,
+        title: titleValue,
+      },
+    };
+
+    const newState: TodoTable = {
+      ...items,
+      tasks: newTasks,
+    };
+
+    setItems(newState);
+  }
+
   // End of todo item manipulation function list
+
+  // Modal relation function //////////////////////
+
+  function openEditModal(columnId: string, index: number) {
+    const taskId = items.columns[columnId].taskIds[index];
+    const taskDetail = items.tasks[taskId];
+  
+    // Save task reference data for editInput submit
+    setModalData({ columnId, taskId });
+
+    setContentValue(taskDetail.content);
+    setTitleValue(taskDetail.title);
+    setModalType("edit");
+    setIsModalOpen(true);
+  }
+
+  function onCloseModal() {
+    // Set modal input value to empty before closing
+    // This is required to avoid input value filled by latest opened modal
+    setContentValue("");
+    setTitleValue("");
+  
+    setIsModalOpen(false);
+  }
+
+  function onSubmitModal() {
+    switch (modalType) {
+      case "create":
+        onCreateTaskSubmit({ content: contentValue, title: titleValue });
+        break;
+      case "edit":
+        onEditItem();
+        break;
+    }
+    onCloseModal();
+  }
+
+  // End of modal related function //////////////////
 
   return {
     items,
@@ -141,7 +212,10 @@ export function useCustomHook() {
     titleValue,
     isModalOpen,
     contentValue,
+    onCloseModal,
     setTitleValue,
+    openEditModal,
+    onSubmitModal,
     setIsModalOpen,
     setContentValue,
     onCreateTaskInput,

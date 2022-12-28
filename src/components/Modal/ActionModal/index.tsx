@@ -1,12 +1,11 @@
 import styles from "./ActionModal.module.css";
 
 type ActionModalProps = {
-  onClose: () => void;
   isOpen: boolean;
   children: React.ReactNode;
 };
 
-function ActionModal({ children, isOpen, onClose }: ActionModalProps) {
+function ActionModal({ children, isOpen }: ActionModalProps) {
   if (isOpen) {
     return (
       <div className={styles.modalOverlay}>

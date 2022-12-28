@@ -8,6 +8,7 @@ type DraggableCardProps = {
   idx: number;
   isDeleteable?: boolean;
   onDelete: (index: number) => void;
+  onEdit: (index: number) => void;
 };
 
 export default function DraggableCard({
@@ -15,6 +16,7 @@ export default function DraggableCard({
   idx,
   isDeleteable = true,
   onDelete,
+  onEdit
 }: DraggableCardProps) {
   return (
     <Draggable draggableId={taskData.id} key={taskData.id} index={idx}>
@@ -43,7 +45,7 @@ export default function DraggableCard({
             <div style={{ display: "flex" }}>
               <Button
                 type="link"
-                onPress={() => console.log("test")}
+                onPress={() => onEdit(idx)}
                 style={{ marginRight: "8px" }}
               >
                 <MdCreate />
