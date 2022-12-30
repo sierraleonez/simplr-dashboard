@@ -15,7 +15,7 @@ type EditModalProps = {
 };
 export function useCustomHook() {
   const auth = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [modalType, setModalType] = useState<ActionModalType>("create");
